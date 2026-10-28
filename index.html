@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ĐỀ ÔN TẬP GIỮA KỲ - TIẾNG ANH LỚP 4</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        pastelBlue: '#E0F2FE',
+                        pastelGreen: '#DCFCE7',
+                        pastelYellow: '#FEF9C3',
+                        pastelOrange: '#FFEDD5',
+                        pastelPink: '#FCE7F3',
+                        pastelPurple: '#F3E8FF',
+                        brandBlue: '#0284C7',
+                        brandGreen: '#16A34A',
+                        brandYellow: '#CA8A04',
+                        brandOrange: '#EA580C',
+                        brandPurple: '#9333EA'
+                    },
+                    fontFamily: {
+                        nunito: ['Nunito', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: linear-gradient(135deg, #e0f2fe 0%, #fef9c3 50%, #fce7f3 100%);
+            background-attachment: fixed;
+        }
+        .custom-card {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(10px);
+            border: 3px solid #ffffff;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+        }
+        .option-btn {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .option-btn:hover {
+            transform: translateY(-2px);
+        }
+        .badge-glow {
+            animation: pulse-subtle 2s infinite;
+        }
+        @keyframes pulse-subtle {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.92; transform: scale(1.02); }
+        }
+    </style>
+</head>
+<body class="min-h-screen pb-12 text-gray-800">
+
+    <!-- Top Navigation Header -->
+    <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md shadow-md border-b-4 border-sky-300">
+        <div class="max-w-5xl mx-auto px-4 py-3 flex flex-wrap justify-between items-center gap-3">
+            <!-- App Title & Logo -->
+            <div class="flex items-center gap-3">
+                <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-sky-400 to-indigo-500 flex items-center justify-center text-white text-2xl shadow-lg transform -rotate-3">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-extrabold text-sky-700 tracking-tight leading-none">ENGLISH GRADE 4</h1>
+                    <p class="text-xs font-bold text-amber-600 mt-1"><i class="fa-solid fa-star text-amber-400 mr-1"></i>ĐỀ ÔN TẬP GIỮA KỲ</p>
+                </div>
+            </div>
+
+            <!-- Stats Bar (Visitors & Timer) -->
+            <div class="flex items-center gap-3 ml-auto">
+                <!-- Visitor Count Badge -->
+                <div class="bg-indigo-50 border-2 border-indigo-200 rounded-full px-3 py-1.5 flex items-center gap-2 text-indigo-700 font-bold text-xs shadow-sm">
+                    <i class="fa-solid fa-eye text-indigo-500"></i>
+                    <span>Lượt xem: <span id="visitorCount" class="text-indigo-900 font-extrabold">1</span></span>
+                </div>
+
+                <!-- Live Timer Badge -->
+                <div id="timerContainer" class="bg-amber-50 border-2 border-amber-300 rounded-full px-4 py-1.5 flex items-center gap-2 text-amber-800 font-extrabold text-sm shadow-md badge-glow">
+                    <i class="fa-regular fa-clock text-amber-600 text-base animate-spin" style="animation-duration: 8s;"></i>
+                    <span id="timer">40:00</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-4xl mx-auto px-4 pt-6">
+
+        <!-- Student Progress / Floating Action Header -->
+        <div class="custom-card rounded-3xl p-5 mb-6 border-sky-200 flex flex-wrap justify-between items-center gap-4">
+            <div>
+                <h2 class="text-lg font-bold text-sky-900 flex items-center gap-2">
+                    <i class="fa-solid fa-book-open-reader text-sky-500"></i> Bài Thi Tiếng Anh Lớp 4
+                </h2>
+                <p class="text-xs text-gray-500 font-semibold mt-0.5">Tổng số câu hỏi: <strong class="text-sky-700">31 câu</strong> | Thang điểm: <strong class="text-emerald-600">10 điểm</strong></p>
+            </div>
+            <div class="flex items-center gap-3">
+                <button onclick="confirmReset()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl transition flex items-center gap-1.5 shadow-sm">
+                    <i class="fa-solid fa-rotate-right text-slate-500"></i> Làm lại từ đầu
+                </button>
+                <button onclick="confirmSubmit()" class="px-5 py-2.5 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-extrabold text-sm rounded-xl transition transform hover:scale-105 shadow-md flex items-center gap-2">
+                    <i class="fa-solid fa-paper-plane"></i> Nộp Bài
+                </button>
+            </div>
+        </div>
+
+        <!-- EXAM FORM -->
+        <form id="examForm" onsubmit="event.preventDefault();" class="space-y-8">
+
+            <!-- ================= SECTION A ================= -->
+            <section class="custom-card rounded-3xl p-6 sm:p-8 border-2 border-sky-200 shadow-xl relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-sky-100 rounded-bl-full -z-0 opacity-50"></div>
+                
+                <div class="flex items-center gap-3 mb-6 pb-3 border-b-2 border-sky-100 relative z-10">
+                    <span class="w-9 h-9 rounded-xl bg-sky-500 text-white font-black flex items-center justify-center text-lg shadow-md">A</span>
+                    <div>
+                        <h3 class="text-lg font-black text-sky-900">PHONICS AND VOCABULARY</h3>
+                        <p class="text-xs font-bold text-sky-600">(2.5 điểm - 0.25 đ/câu)</p>
+                    </div>
+                </div>
+
+                <!-- Part I: Stress / Pronunciation -->
+                <div class="mb-8">
+                    <h4 class="font-extrabold text-slate-800 text-sm mb-4 bg-sky-50 p-2.5 rounded-xl border-l-4 border-sky-400">
+                        I. Chọn từ có phần gạch chân phát âm khác:
+                    </h4>
+                    
+                    <div class="space-y-6">
+                        <!-- Q1 -->
+                        <div class="q-block p-4 rounded-2xl bg-white/80 border-2 border-slate-100 shadow-sm" id="q-block-1">
+                            <p class="font-bold text-slate-800 mb-3 text-sm">Câu 1.</p>
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3" id="q1-options">
+                                <label class="option-btn border-2 border-slate-200 hover:border-sky-300 rounded-xl p-3 flex items-center gap-2 cursor-pointer bg-white text-sm font-semibold">
+                                    <input type="radio" name="q1" value="A" onchange="autoSave()" class="w-4 h-4 text-sky-600 focus:ring-sky-400">
+                                    <span>A. P<u class="text-sky-600 font-bold">e</u>n</span>
+                                </label>
+                                <label class="option-btn border-2 border-slate-200 hover:border-sky-300 rounded-xl p-3 flex items-center gap-2 cursor-pointer bg-white text-sm font-semibold">
+                                    <input type="radio" name="q1" value="B" onchange="autoSave()" class="w-4 h-4 text-sky-600 focus:ring-sky-400">
+                                    <span>B. T<u class="text-sky-600 font-bold">e</u>n</span>
+                                </label>
+                                <label class="option-btn border-2 border-slate-200 hover:border-sky-300 rounded-xl p-3 flex items-center gap-2 cursor-pointer bg-white text-sm font-semibold">
+                                    <input type="radio" name="q1" value="C" onchange="autoSave()" class="w-4 h-4 text-sky-600 focus:ring-sky-400">
+                                    <span>C. Sh<u class="text-sky-600 font-bold">e</u></span>
+                                </label>
+                                <label class="option-btn border-2 border-slate-200 hover:border-sky-300 rounded-xl p-3 flex items-center gap-2 cursor-pointer bg-white text-sm font-semibold">
+                                    <input type="radio" name="q1" value="D" onchange="autoSave()" class="w-4 h-4 text-sky-600 focus:ring-sky-400">
+                                    <span>D. R<u class="text-sky-600 font-bold">e</u>d</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Q2 -->
+                        <div class="q-block p-4 rounded-2xl bg-white/80 border-2 border-slate-100 shadow-sm" id="q-block-2">
+                            <p class="font-bold text-slate-800 mb-3 text-sm">Câu 2.</p>
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3" id="q2-options">
+                                <label class="option-btn border-2 border-slate-200 hover:border-sky-300 rounded-xl p-3 flex items-center gap-2 cursor-pointer bg-white text-sm font-semibold">
+                                    <input type="radio" name="q2" value="A" onchange="autoSave()" class="w-4 h-4 text-sky-600">
+                                    <span>A. C<u class="text-sky-600 font-bold">a</u>t</span>
+                                </label>
+                                <label class="option-btn border-2 border-slate-200 hover:border-sky-300 rounded-xl p-3 flex items-center gap-2 cursor-pointer bg-white text-sm font-semibold">
+                                    <input type="radio" name="q2" value="B" onchange="autoSave()" class="w-4 h-4 text-sky-600">
+                                    <span>B. B<u class="text-sky-600 font-bold">a</u>d</span>
+                                </label>
+                                <label class="option-btn border-2 border-slate-200 hover:border-sky-300 rounded-xl p-3 flex items-center gap-2 cursor-pointer bg-white text-sm font-semibold">
+                                    <input type="radio" name="q2" value="C" onchange="autoSave()" class="w-4 h-4 text-sky-600">
+                                    <span>C. M<u class="text-sky-600 font-bold">a</u>p</span>
+                                </label>
+                                <label class="option-btn border-2 border-slate-200 hover:border-sky-300 rounded-xl p-3 flex items-center gap-2 cursor-pointer bg-white text-sm font-semibold">
+                                    <input type="radio" name="q2" value="D" onchange="autoSave()" class="w-4 h-4 text-sky-600">
+                                    <span>D. F<u class="text-sky-600 font-bold">a</u>ther</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Part II: Fill missing letters -->
+                <div class="mb-8">
+                    <h4 class="font-extrabold text-slate-800 text-sm mb-4 bg-sky-50 p-2.5 rounded-xl border-l-4 border-sky-400">
+                        II. Điền chữ cái còn thiếu vào chỗ trống để tạo thành từ đúng:
+                    </h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <!-- Q3 -->
+                        <div class="q-block p-4 rounded-2xl bg-white/80 border-2 border-slate-100 shadow-sm" id="q-block-3">
+                            <label class="block font-bold text-slate-800 text-sm mb-2">Câu 3. V _ _ T N A M <span class="text-xs text-sky-600 font-normal">(Tên quốc gia)</span></label>
+                            <input type="text" id="q3" oninput="autoSave()" placeholder="Nhập các chữ cái còn thiếu..." class="w-full px-3.5 py-2 rounded-xl border-2 border-slate-200 focus:border-sky-400 focus:outline-none text-sm font-bold tracking-widest uppercase">
+                        </div>
+                        <!-- Q4 -->
+                        <div class="q-block p-4 rounded-2xl bg-white/80 border-2 border-slate-100 shadow-sm" id="q-block-4">
+                            <label class="block font-bold text-slate-800 text-sm mb-2">Câu 4. M O N D _ Y <span class="text-xs text-sky-600 font-normal">(Thứ Hai)</span></label>
+                            <input type="text" id="q4" oninput="autoSave()" placeholder="Nhập chữ cái còn thiếu..." class="w-full px-3.5 py-2 rounded-xl border-2 border-slate-200 focus:border-sky-400 focus:outline-none text-sm font-bold tracking-widest uppercase">
+                        </div>
+                        <!-- Q5 -->
+                        <div class="q-block p-4 rounded-2xl bg-white/80 border-2 border-slate-100 shadow-sm" id="q-block-5">
+                            <label class="block font-bold text-slate-800 text-sm mb-2">Câu 5. A U G _ S T <span class="text-xs text-sky-600 font-normal">(Tháng Tám)</span></label>
+                            <input type="text" id="q5" oninput="autoSave()" placeholder="Nhập chữ cái còn thiếu..." class="w-full px-3.5 py-2 rounded-xl border-2 border-slate-200 focus:border-sky-400 focus:outline-none text-sm font-bold tracking-widest uppercase">
+                        </div>
+                        <!-- Q6 -->
+                        <div class="q-block p-4 rounded-2xl bg-white/80 border-2 border-slate-100 shadow-sm" id="q-block-6">
+                            <label class="block font-bold text-slate-800 text-sm mb-2">Câu 6. S W _ M <span class="text-xs text-sky-600 font-normal">(Bơi lội)</span></label>
+                            <input type="text" id="q6" oninput="autoSave()" placeholder="Nhập chữ cái còn thiếu..." class="w-full px-3.5 py-2 rounded-xl border-2 border-slate-200 focus:border-sky-400 focus:outline-none text-sm font-bold tracking-widest uppercase">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Part III: Matching -->
+                <div>
+                    <h4 class="font-extrabold text-slate-800 text-sm mb-4 bg-sky-50 p-2.5 rounded-xl border-l-4 border-sky-400">
+                        III. Nối cột A với cột B cho phù hợp:
+                    </h4>
+
+                    <!-- Matching Reference Table -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 text-xs font-semibold bg-slate-50 p-4 rounded-2xl border border-slate-200">
+                        <div>
+                            <p class="font-bold text-sky-700 mb-2">CỘT A:</p>
+                            <ul class="space-y-1.5 text-slate-700">
+                                <li><strong>7.</strong> Where are you from?</li>
+                                <li><strong>8.</strong> What day is it today?</li>
+                                <li><strong>9.</strong> When's your birthday?</li>
+                                <li><strong>10.</strong> What can you do?</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p class="font-bold text-emerald-700 mb-2">CỘT B:</p>
+                            <ul class="space-y-1.5 text-slate-700">
+                                <li><strong>a.</strong> It's Friday.</li>
+                                <li><strong>b.</strong> I can play football.</li>
+                                <li><strong>c.</strong> I'm from Malaysia.</li>
+                                <li><strong>d.</strong> It's in June.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Matching Inputs -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="q-block p-3.5 rounded-2xl bg-white/80 border-2 border-slate-100 flex items-center justify-between" id="q-block-7">
+                            <label class="font-bold text-slate-800 text-sm">Câu 7. (7 - ...):</label>
+                            <select id="q7" onchange="autoSave()" class="w-36 px-3 py-1.5 rounded-xl border-2 border-slate-200 focus:border-sky-400 focus:outline-none text-xs font-bold text-sky-800 bg-white">
+                                <option value="">-- Chọn --</option>
+                                <option value="a">a. It's Friday.</option>
+                                <option value="b">b. I can play football.</option>
+                                <option value="c">c. I'm from Malaysia.</option>
+                                <option value="d">d. It's in June.</option>
+                            </select>
+                        </div>
+                        <div class="q-block p-3.5 rounded-2xl bg-white/80 border-2 border-slate-100 flex items-center justify-between" id="q-block-8">
+                            <label class="font-bold text-slate-800 text-sm">Câu 8. (8 - ...):</label>
+                            <select id="q8" onchange="autoSave()" class="w-36 px-3 py-1.5 rounded-xl border-2 border-slate-200 focus:border-sky-400 focus:outline-none text-xs font-bold text-sky-800 bg-white">
+                                <option value="">-- Chọn --</option>
+                                <option value="a">a. It's Friday.</option>
+                                <option value="b">b. I can play football.</option>
+                                <option value="c">c. I'm from Malaysia.</option>
+                                <option value="d">d. It's in June.</option>
+                            </select>
+                        </div>
+                        <div class="q-block p-3.5 rounded-2xl bg-white/80 border-2 border-slate-100 flex items-center justify-between" id="q-block-9">
+                            <label class="font-bold text-slate-800 text-sm">Câu 9. (9 - ...):</label>
+                            <select id="q9" onchange="autoSave()" class="w-36 px-3 py-1.5 rounded-xl border-2 border-slate-200 focus:border-sky-400 focus:outline-none text-xs font-bold text-sky-800 bg-white">
+                                <option value="">-- Chọn --</option>
+                                <option value="a">a. It's Friday.</option>
+                                <option value="b">b. I can play football.</option>
+                                <option value="c">c. I'm from Malaysia.</option>
+                                <option value="d">d. It's in June.</option>
+                            </select>
+                        </div>
+                        <div class="q-block p-3.5 rounded-2xl bg-white/80 border-2 border-slate-100 flex items-center justify-between" id="q-block-10">
+                            <label class="font-bold text-slate-800 text-sm">Câu 10. (10 - ...):</label>
+                            <select id="q10" onchange="autoSave()" class="w-36 px-3 py-1.5 rounded-xl border-2 border-slate-200 focus:border-sky-400 focus:outline-none text-xs font-bold text-sky-800 bg-white">
+                                <option value="">-- Chọn --</option>
+                                <option value="a">a. It's Friday.</option>
+                                <option value="b">b. I can play football.</option>
+                                <option value="c">c. I'm from Malaysia.</option>
+                                <option value="d">d. It's in June.</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- ================= SECTION B ================= -->
+            <section class="custom-card rounded-3xl p-6 sm:p-8 border-2 border-emerald-200 shadow-xl relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-emerald-100 rounded-bl-full -z-0 opacity-50"></div>
+
+                <div class="flex items-center gap-3 mb-6 pb-3 border-b-2 border-emerald-100 relative z-10">
+                    <span class="w-9 h-9 rounded-xl bg-emerald-500 text-white font-black flex items-center justify-center text-lg shadow-md">B</span>
+                    <div>
+                        <h3 class="text-lg font-black text-emerald-900">GRAMMAR</h3>
+                        <p class="text-xs font-bold text-emerald-600">(2.5 điểm - 0.25 đ/câu)</p>
+                    </div>
+                </div>
+
+                <p class="font-extrabold text-slate-800 text-sm mb-4 bg-emerald-50 p-2.5 rounded-xl border-l-4 border-emerald-400">
+                    Chọn đáp án đúng nhất (A, B, C hoặc D):
+                </p>
+
+                <div class="space-y-6">
+                    <!-- Q11 -->
+                    <div class="q-block p-4 rounded-2xl bg-white/80 border-2 border-slate-100 shadow-sm" id="q-block-11">
+                        <p class="font-bold text-slate-800 mb-3 text-sm">Câu 11. Hakimi is from Malaysia. He is _______.</p>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                            <label class="option-btn border-2 border-slate-200 rounded-xl p-2.5 flex items-center gap-2 cursor-pointer bg-white text-xs font-semibold"><input type="radio" name="q11" value="A" onchange="autoSave()"><span>A. Malaysia</span></label>
+                            <label class="option-btn border-2 border-slate-200 rounded-xl p-2.5 flex items-center gap-2 cursor-pointer bg-white text-xs font-semibold"><input type="radio" name="q11" value="B" onchange="autoSave()"><span>B. Malaysian</span></label>
+                            <label class="option-btn border-2 border-slate-200 rounded-xl p-2.5 flex items-center gap-2 cursor-pointer bg-white text-xs font-semibold"><input type="radio" name="q11" value="C" onchange="autoSave()"><span>C. English</span></label>
+                            <label class="option-btn border-2 border-slate-200 rounded-xl p-2.5 flex items-center gap-2 cursor-pointer bg-white text-xs font-semibold"><input type="radio" name="q11" value="D" onchange="autoSave()"><span>D. American</span></label>
+                        </div>
+                    </div>
+
+                    <!-- Q12 -->
+                    <div class="q-block p-4 rounded-2xl bg-white/80 border-2 border-slate-100 shadow-sm" id="q-block-12">
+                        <p class="font-bold text-slate-800 mb-3 text-sm">Câu 12. We have art lessons _______ Wednesdays.</p>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                            <label class="option-btn border-2 border-slate-200 rounded-xl p-2.5 flex items-center gap-2 cursor-pointer bg-white text-xs font-semibold"><input type="radio" name="q12" value="A" onchange="autoSave()"><span>A. in</span></label>
+                            <label class="option-btn border-2 border-slate-200 rounded-xl p-2.5 flex items-center gap-2 cursor-pointer bg-white text-xs font-semibold"><input type="radio" name="q12" value="B" onchange="autoSave()"><span>B. on</span></label>
+                            <label class="option-btn border-2 border-slate-200 rounded-xl p-2.5 flex items-center gap-2 cursor-pointer bg-white text-xs font-semibold"><input type="radio" name="q12" value="C" onchange="autoSave()"><span>C. at</span></label>
+                            <label class="option-btn border-2 border-slate-200 rounded-xl p-2.5 flex items-center gap-2 cursor-pointer bg-white text-xs font-semibold"><input type="radio" name="q12" value="D" onchange="autoSave()"><span>D. by</span></label>
+                        </div>
+                    </div>
+
+                    <!-- Q13 -->
+                    <div class="q-block p-4 rounded-2xl bg-white/80 border-2 border-slate-100 shadow-sm" id="q-block-13">
+                        <p class="font-bold text-slate-800 mb-3 text-sm">Câu 13. Her birthday is _______ February.</p>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                            <label class="option-btn border-2 border-slate-200 rounded-xl p-2.5 flex items-center gap-2 cursor-pointer bg-white text-xs font-semibold"><input type="radio" name="q13" value="A" onchange="autoSave()"><span>A. in</span></label>
+                            <label class="option-btn border-2 border-slate-200 rounded-xl p-2.5 flex items-center gap-2 cursor-pointer bg-white text-xs font-semibold"><input type="radio" name="q13" value="B" onchange="autoSave()"><span>B. on</span></label>
+                            <label class="option-btn border-2 border-slate-200 rounded-xl p-2.5 flex items-center gap-2 cursor-pointer bg-white text-xs font-semibold"><input type="radio" name="q13" value="C" onchange="autoSave()"><span>C. to</span></label>
+                            <label class="option-btn border-2 border-slate-200 rounded-xl p-2.5 flex items-center gap-2 cursor-pointer bg-white text-xs font-semibold"><input type="radio" name="q13" value="D" onchange="autoSave()"><span>D. at</span></label>
+                        </div>
+                    </div>
+
+                    <!-- Q14 -->
+                    <div class="q-block p-4 rounded-2xl bg-white/80 border-2 border-slate-100 shadow-sm" id="q-block-14">
+                        <p class="font-bold text-slate-800 mb-3 text-sm">Câu 14. Can you ride a bike? – Yes, I _______.</p>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                            <label class="option-btn border-2 border-slate-200 rounded-xl p-2.5 flex items-center gap-2 cursor-pointer bg-white text-xs font-semibold"><input type="radio" name="q14" value="A" onchange="autoSave()"><span>A. can't</span></label>
+                            <label class="option-btn border-2 border-slate-200 rounded-xl p-2.5 flex items-center gap-2 cursor-pointer bg-white text-xs font-semibold"><input type="radio" name="q14" value="B" onchange="autoSave()"><span>B. do</span></label>
+                            <label class="option-btn border-2 border-slate-200 rounded-xl p-2.5 flex items-center gap-2 cursor-pointer bg-white text-xs font-semibold"><input type="radio" name="q14" value="C" onchange="autoSave()"><span>C. can</span></label>
+                            <label class="option-btn border-2 border-slate-200 rounded-xl p-2.5 flex items-center gap-2 cursor-pointer bg-white text-xs font-semibold"><input type="radio" name="q14" value="D" onchange="autoSave()"><span>D. am</span></label>
+                        </div>
+                    </div>
+
+                    <!-- Q15 -->
+                    <div class="q-block p-4 rounded-2xl bg-white/80 border-2 border-slate-100 shadow-sm" id="q-block-15">
+                        <p class="font-bold text-slate-800 mb-3 text-sm">Câu 15. He can play the guitar, but he _______ sing.</p>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                            <label class="option-btn border-2 border-slate-200 rounded-xl p-2.5 flex items-center gap-2 cursor-pointer bg-white text-xs font-semibold"><input type="radio" name="q15" value="A" onchange="autoSave()"><span>A. can</span></label>
+                            <label class="option-btn border-2 border-slate-200 rounded-xl p-2.5 flex items-center gap-2 cursor-pointer bg-white text-xs font-semibold"><input type="radio" name="q15" value="B" onchange="autoSave()"><span>B. can't</span></label>
+                            <label class="option-btn border-2 border-slate-200 rounded-xl p-2.5 flex items-center gap-2 cursor-pointer bg-white text-xs font-semibold"><input type="radio" name="q15" value="C" onchange="autoSave()"><span>C. isn't</span></label>
+                            <label class="option-btn border-2 border-slate-200 rounded-xl p-2.5 flex items-center gap-2 cursor-pointer bg-white text-xs font-semibold"><input type="radio" name="q15" value="D" onchange="autoSave()"><span>D. not</span></label>
+                        </div>
+                    </div>
+
+                    <!-- Q16 -->
+                    <div class="q-block p-4 rounded-2xl bg-white/80 border-2 border-slate-100 shadow-sm" id="q-block-16">
+                        <p class="font-bold text-slate-800 mb-3 text-sm">Câu 16. Where is Mary from? – She is from _______.</p>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                            <label class="option-btn border-2 border-slate-200 rounded-xl p-2.5 flex items-center gap-2 cursor-pointer bg-white text-xs font-semibold"><input type="radio" name="q16" value="A" onchange="autoSave()"><span>A. English</span></label>
+                            <label class="option-btn border-2 border-slate-200 rounded-xl p-2.5 flex items-center gap-2 cursor-pointer bg-white text-xs font-semibold"><input type="radio" name="q16" value="B" onchange="autoSave()"><span>B. England</span></label>
+                            <label class="option-btn border-2 border-slate-200 rounded-xl p-2.5 flex items-center gap-2 cursor-pointer bg-white text-xs font-semibold"><input type="radio" name="q16" value="C" onchange="autoSave()"><span>C. Vietnamese</span></label>
+                            <label class="option-btn border-2 border-slate-200 rounded-xl p-2.5 flex items-center gap-2 cursor-pointer bg-white text-xs font-semibold"><input type="radio" name="q16" value="D" onchange="autoSave()"><span>D. Japanese</span></label>
+                        </div>
+                    </div>
+
+                    <!-- Q17 -->
+                    <div class="q-block p-4 rounded-2xl bg-white/80 border-2 border-slate-100 shadow-sm" id="q-block-17">
+                        <p class="font-bold text-slate-800 mb-3 text-sm">Câu 17. What do you do on Sunday mornings? – I _______ my parents.</p>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                            <label class="option-btn border-2 border-slate-200 rounded-xl p-2.5 flex items-center gap-2 cursor-pointer bg-white text-xs font-semibold"><input type="radio" name="q17" value="A" onchange="autoSave()"><span>A. help</span></label>
+                            <label class="option-btn border-2 border-slate-200 rounded-xl p-2.5 flex items-center gap-2 cursor-pointer bg-white text-xs font-semibold"><input type="radio" name="q17" value="B" onchange="autoSave()"><span>B. helps</span></label>
+                            <label class="option-btn border-2 border-slate-200 rounded-xl p-2.5 flex items-center gap-2 cursor-pointer bg-white text-xs font-semibold"><input type="radio" name="q17" value="C" onchange="autoSave()"><span>C. helping</span></label>
+                            <label class="option-btn border-2 border-slate-200 rounded-xl p-2.5 flex items-center gap-2 cursor-pointer bg-white text-xs font-semibold"><input type="radio" name="q17" value="D" onchange="autoSave()"><span>D. to help</span></label>
+                        </div>
+                    </div>
+
+                    <!-- Q18 -->
+                    <div class="q-block p-4 rounded-2xl bg-white/80 border-2 border-slate-100 shadow-sm" id="q-block-18">
+                        <p class="font-bold text-slate-800 mb-3 text-sm">Câu 18. There are twelve _______ in a year.</p>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                            <label class="option-btn border-2 border-slate-200 rounded-xl p-2.5 flex items-center gap-2 cursor-pointer bg-white text-xs font-semibold"><input type="radio" name="q18" value="A" onchange="autoSave()"><span>A. days</span></label>
+                            <label class="option-btn border-2 border-slate-200 rounded-xl p-2.5 flex items-center gap-2 cursor-pointer bg-white text-xs font-semibold"><input type="radio" name="q18" value="B" onchange="autoSave()"><span>B. weeks</span></label>
+                            <label class="option-btn border-2 border-slate-200 rounded-xl p-2.5 flex items-center gap-2 cursor-pointer bg-white text-xs font-semibold"><input type="radio" name="q18" value="C" onchange="autoSave()"><span>C. months</span></label>
+                            <label class="option-btn border-2 border-slate-200 rounded-xl p-2.5 flex items-center gap-2 cursor-pointer bg-white text-xs font-semibold"><input type="radio" name="q18" value="D" onchange="autoSave()"><span>D. seasons</span></label>
+                        </div>
+                    </div>
+
+                    <!-- Q19 -->
+                    <div class="q-block p-4 rounded-2xl bg-white/80 border-2 border-slate-100 shadow-sm" id="q-block-19">
+                        <p class="font-bold text-slate-800 mb-3 text-sm">Câu 19. My brother _______ skate very well.</p>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                            <label class="option-btn border-2 border-slate-200 rounded-xl p-2.5 flex items-center gap-2 cursor-pointer bg-white text-xs font-semibold"><input type="radio" name="q19" value="A" onchange="autoSave()"><span>A. can</span></label>
+                            <label class="option-btn border-2 border-slate-200 rounded-xl p-2.5 flex items-center gap-2 cursor-pointer bg-white text-xs font-semibold"><input type="radio" name="q19" value="B" onchange="autoSave()"><span>B. is</span></label>
+                            <label class="option-btn border-2 border-slate-200 rounded-xl p-2.5 flex items-center gap-2 cursor-pointer bg-white text-xs font-semibold"><input type="radio" name="q19" value="C" onchange="autoSave()"><span>C. are</span></label>
+                            <label class="option-btn border-2 border-slate-200 rounded-xl p-2.5 flex items-center gap-2 cursor-pointer bg-white text-xs font-semibold"><input type="radio" name="q19" value="D" onchange="autoSave()"><span>D. do</span></label>
+                        </div>
+                    </div>
+
+                    <!-- Q20 -->
+                    <div class="q-block p-4 rounded-2xl bg-white/80 border-2 border-slate-100 shadow-sm" id="q-block-20">
+                        <p class="font-bold text-slate-800 mb-3 text-sm">Câu 20. _______ can you do? – I can dance and play tennis.</p>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                            <label class="option-btn border-2 border-slate-200 rounded-xl p-2.5 flex items-center gap-2 cursor-pointer bg-white text-xs font-semibold"><input type="radio" name="q20" value="A" onchange="autoSave()"><span>A. Where</span></label>
+                            <label class="option-btn border-2 border-slate-200 rounded-xl p-2.5 flex items-center gap-2 cursor-pointer bg-white text-xs font-semibold"><input type="radio" name="q20" value="B" onchange="autoSave()"><span>B. When</span></label>
+                            <label class="option-btn border-2 border-slate-200 rounded-xl p-2.5 flex items-center gap-2 cursor-pointer bg-white text-xs font-semibold"><input type="radio" name="q20" value="C" onchange="autoSave()"><span>C. What</span></label>
+                            <label class="option-btn border-2 border-slate-200 rounded-xl p-2.5 flex items-center gap-2 cursor-pointer bg-white text-xs font-semibold"><input type="radio" name="q20" value="D" onchange="autoSave()"><span>D. Who</span></label>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- ================= SECTION C ================= -->
+            <section class="custom-card rounded-3xl p-6 sm:p-8 border-2 border-amber-200 shadow-xl relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-amber-100 rounded-bl-full -z-0 opacity-50"></div>
+
+                <div class="flex items-center gap-3 mb-6 pb-3 border-b-2 border-amber-100 relative z-10">
+                    <span class="w-9 h-9 rounded-xl bg-amber-500 text-white font-black flex items-center justify-center text-lg shadow-md">C</span>
+                    <div>
+                        <h3 class="text-lg font-black text-amber-900">READING</h3>
+                        <p class="text-xs font-bold text-amber-600">(2.5 điểm)</p>
+                    </div>
+                </div>
+
+                <!-- Passage Box -->
+                <div class="bg-amber-50/80 p-5 rounded-2xl border-2 border-amber-200 mb-6 text-sm text-slate-800 leading-relaxed font-semibold">
+                    <p class="mb-2 text-xs font-bold text-amber-700 uppercase tracking-wider"><i class="fa-solid fa-book-open mr-1"></i>Đọc đoạn văn sau:</p>
+                    "Hello, I am Tom. I am from Sydney, Australia. I am in Class 4C. Every day, I get up at 6:30. Today is Tuesday. I have English, Maths, and Music at school. In Music class, I can sing many English songs. My friend Peter cannot sing, but he can play the guitar very well. We have a lot of fun together."
+                </div>
+
+                <!-- Part I: Multiple Choice -->
+                <div class="mb-8">
+                    <h4 class="font-extrabold text-slate-800 text-sm mb-4 bg-amber-100/70 p-2.5 rounded-xl border-l-4 border-amber-400">
+                        I. Chọn phương án đúng (A, B, hoặc C) (1.5 điểm - 0.375 đ/câu):
+                    </h4>
+
+                    <div class="space-y-6">
+                        <!-- Q21 -->
+                        <div class="q-block p-4 rounded-2xl bg-white/80 border-2 border-slate-100 shadow-sm" id="q-block-21">
+                            <p class="font-bold text-slate-800 mb-3 text-sm">Câu 21. Tom is from _______.</p>
+                            <div class="grid grid-cols-3 gap-3">
+                                <label class="option-btn border-2 border-slate-200 rounded-xl p-2.5 flex items-center gap-2 cursor-pointer bg-white text-xs font-semibold"><input type="radio" name="q21" value="A" onchange="autoSave()"><span>A. America</span></label>
+                                <label class="option-btn border-2 border-slate-200 rounded-xl p-2.5 flex items-center gap-2 cursor-pointer bg-white text-xs font-semibold"><input type="radio" name="q21" value="B" onchange="autoSave()"><span>B. England</span></label>
+                                <label class="option-btn border-2 border-slate-200 rounded-xl p-2.5 flex items-center gap-2 cursor-pointer bg-white text-xs font-semibold"><input type="radio" name="q21" value="C" onchange="autoSave()"><span>C. Australia</span></label>
+                            </div>
+                        </div>
+
+                        <!-- Q22 -->
+                        <div class="q-block p-4 rounded-2xl bg-white/80 border-2 border-slate-100 shadow-sm" id="q-block-22">
+                            <p class="font-bold text-slate-800 mb-3 text-sm">Câu 22. What day is it today?</p>
+                            <div class="grid grid-cols-3 gap-3">
+                                <label class="option-btn border-2 border-slate-200 rounded-xl p-2.5 flex items-center gap-2 cursor-pointer bg-white text-xs font-semibold"><input type="radio" name="q22" value="A" onchange="autoSave()"><span>A. Tuesday</span></label>
+                                <label class="option-btn border-2 border-slate-200 rounded-xl p-2.5 flex items-center gap-2 cursor-pointer bg-white text-xs font-semibold"><input type="radio" name="q22" value="B" onchange="autoSave()"><span>B. Thursday</span></label>
+                                <label class="option-btn border-2 border-slate-200 rounded-xl p-2.5 flex items-center gap-2 cursor-pointer bg-white text-xs font-semibold"><input type="radio" name="q22" value="C" onchange="autoSave()"><span>C. Friday</span></label>
+                            </div>
+                        </div>
+
+                        <!-- Q23 -->
+                        <div class="q-block p-4 rounded-2xl bg-white/80 border-2 border-slate-100 shadow-sm" id="q-block-23">
+                            <p class="font-bold text-slate-800 mb-3 text-sm">Câu 23. Tom has English, Maths, and _______ at school today.</p>
+                            <div class="grid grid-cols-3 gap-3">
+                                <label class="option-btn border-2 border-slate-200 rounded-xl p-2.5 flex items-center gap-2 cursor-pointer bg-white text-xs font-semibold"><input type="radio" name="q23" value="A" onchange="autoSave()"><span>A. Art</span></label>
+                                <label class="option-btn border-2 border-slate-200 rounded-xl p-2.5 flex items-center gap-2 cursor-pointer bg-white text-xs font-semibold"><input type="radio" name="q23" value="B" onchange="autoSave()"><span>B. Music</span></label>
+                                <label class="option-btn border-2 border-slate-200 rounded-xl p-2.5 flex items-center gap-2 cursor-pointer bg-white text-xs font-semibold"><input type="radio" name="q23" value="C" onchange="autoSave()"><span>C. Science</span></label>
+                            </div>
+                        </div>
+
+                        <!-- Q24 -->
+                        <div class="q-block p-4 rounded-2xl bg-white/80 border-2 border-slate-100 shadow-sm" id="q-block-24">
+                            <p class="font-bold text-slate-800 mb-3 text-sm">Câu 24. In Music class, Tom can _______.</p>
+                            <div class="grid grid-cols-3 gap-3">
+                                <label class="option-btn border-2 border-slate-200 rounded-xl p-2.5 flex items-center gap-2 cursor-pointer bg-white text-xs font-semibold"><input type="radio" name="q24" value="A" onchange="autoSave()"><span>A. dance</span></label>
+                                <label class="option-btn border-2 border-slate-200 rounded-xl p-2.5 flex items-center gap-2 cursor-pointer bg-white text-xs font-semibold"><input type="radio" name="q24" value="B" onchange="autoSave()"><span>B. play the guitar</span></label>
+                                <label class="option-btn border-2 border-slate-200 rounded-xl p-2.5 flex items-center gap-2 cursor-pointer bg-white text-xs font-semibold"><input type="radio" name="q24" value="C" onchange="autoSave()"><span>C. sing songs</span></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Part II: Short Answer -->
+                <div>
+                    <h4 class="font-extrabold text-slate-800 text-sm mb-4 bg-amber-100/70 p-2.5 rounded-xl border-l-4 border-amber-400">
+                        II. Trả lời câu hỏi (1.0 điểm - 0.5 đ/câu):
+                    </h4>
+
+                    <div class="space-y-4">
+                        <!-- Q25 -->
+                        <div class="q-block p-4 rounded-2xl bg-white/80 border-2 border-slate-100 shadow-sm" id="q-block-25">
+                            <label class="block font-bold text-slate-800 text-sm mb-2">Câu 25. Can Peter sing?</label>
+                            <input type="text" id="q25" oninput="autoSave()" placeholder="Nhập câu trả lời của bạn..." class="w-full px-4 py-2.5 rounded-xl border-2 border-slate-200 focus:border-amber-400 focus:outline-none text-sm font-semibold">
+                        </div>
+
+                        <!-- Q26 -->
+                        <div class="q-block p-4 rounded-2xl bg-white/80 border-2 border-slate-100 shadow-sm" id="q-block-26">
+                            <label class="block font-bold text-slate-800 text-sm mb-2">Câu 26. What instrument can Peter play?</label>
+                            <input type="text" id="q26" oninput="autoSave()" placeholder="Nhập câu trả lời của bạn..." class="w-full px-4 py-2.5 rounded-xl border-2 border-slate-200 focus:border-amber-400 focus:outline-none text-sm font-semibold">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- ================= SECTION D ================= -->
+            <section class="custom-card rounded-3xl p-6 sm:p-8 border-2 border-purple-200 shadow-xl relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-purple-100 rounded-bl-full -z-0 opacity-50"></div>
+
+                <div class="flex items-center gap-3 mb-6 pb-3 border-b-2 border-purple-100 relative z-10">
+                    <span class="w-9 h-9 rounded-xl bg-purple-500 text-white font-black flex items-center justify-center text-lg shadow-md">D</span>
+                    <div>
+                        <h3 class="text-lg font-black text-purple-900">WRITING</h3>
+                        <p class="text-xs font-bold text-purple-600">(2.5 điểm - 0.5 đ/câu)</p>
+                    </div>
+                </div>
+
+                <!-- Part I: Sentence Transformation -->
+                <div class="mb-8">
+                    <h4 class="font-extrabold text-slate-800 text-sm mb-4 bg-purple-50 p-2.5 rounded-xl border-l-4 border-purple-400">
+                        I. Viết lại câu sau sao cho nghĩa không đổi:
+                    </h4>
+
+                    <div class="space-y-4">
+                        <!-- Q27 -->
+                        <div class="q-block p-4 rounded-2xl bg-white/80 border-2 border-slate-100 shadow-sm" id="q-block-27">
+                            <label class="block font-bold text-slate-800 text-sm mb-2">
+                                Câu 27. When is your date of birth?
+                            </label>
+                            <div class="flex items-center gap-2">
+                                <span class="font-bold text-purple-700 text-sm">When is</span>
+                                <input type="text" id="q27" oninput="autoSave()" placeholder="Điền phần còn lại..." class="flex-1 px-3.5 py-2 rounded-xl border-2 border-slate-200 focus:border-purple-400 focus:outline-none text-sm font-semibold">
+                                <span class="font-bold text-purple-700 text-sm">?</span>
+                            </div>
+                        </div>
+
+                        <!-- Q28 -->
+                        <div class="q-block p-4 rounded-2xl bg-white/80 border-2 border-slate-100 shadow-sm" id="q-block-28">
+                            <label class="block font-bold text-slate-800 text-sm mb-2">
+                                Câu 28. My sister knows how to swim.
+                            </label>
+                            <div class="flex items-center gap-2">
+                                <span class="font-bold text-purple-700 text-sm">My sister can</span>
+                                <input type="text" id="q28" oninput="autoSave()" placeholder="Điền phần còn lại..." class="flex-1 px-3.5 py-2 rounded-xl border-2 border-slate-200 focus:border-purple-400 focus:outline-none text-sm font-semibold">
+                                <span class="font-bold text-purple-700 text-sm">.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Part II: Question Asking -->
+                <div>
+                    <h4 class="font-extrabold text-slate-800 text-sm mb-4 bg-purple-50 p-2.5 rounded-xl border-l-4 border-purple-400">
+                        II. Đặt câu hỏi cho phần gạch chân:
+                    </h4>
+
+                    <div class="space-y-4">
+                        <!-- Q29 -->
+                        <div class="q-block p-4 rounded-2xl bg-white/80 border-2 border-slate-100 shadow-sm" id="q-block-29">
+                            <label class="block font-bold text-slate-800 text-sm mb-1">
+                                Câu 29. I am from <u class="text-purple-600">Viet Nam</u>.
+                            </label>
+                            <p class="text-xs text-slate-500 mb-2">Viết câu hỏi hoàn chỉnh:</p>
+                            <input type="text" id="q29" oninput="autoSave()" placeholder="Viết câu hỏi..." class="w-full px-4 py-2.5 rounded-xl border-2 border-slate-200 focus:border-purple-400 focus:outline-none text-sm font-semibold">
+                        </div>
+
+                        <!-- Q30 -->
+                        <div class="q-block p-4 rounded-2xl bg-white/80 border-2 border-slate-100 shadow-sm" id="q-block-30">
+                            <label class="block font-bold text-slate-800 text-sm mb-1">
+                                Câu 30. It's <u class="text-purple-600">Thursday</u> today.
+                            </label>
+                            <p class="text-xs text-slate-500 mb-2">Viết câu hỏi hoàn chỉnh:</p>
+                            <input type="text" id="q30" oninput="autoSave()" placeholder="Viết câu hỏi..." class="w-full px-4 py-2.5 rounded-xl border-2 border-slate-200 focus:border-purple-400 focus:outline-none text-sm font-semibold">
+                        </div>
+
+                        <!-- Q31 -->
+                        <div class="q-block p-4 rounded-2xl bg-white/80 border-2 border-slate-100 shadow-sm" id="q-block-31">
+                            <label class="block font-bold text-slate-800 text-sm mb-1">
+                                Câu 31. My birthday is <u class="text-purple-600">in May</u>.
+                            </label>
+                            <p class="text-xs text-slate-500 mb-2">Viết câu hỏi hoàn chỉnh:</p>
+                            <input type="text" id="q31" oninput="autoSave()" placeholder="Viết câu hỏi..." class="w-full px-4 py-2.5 rounded-xl border-2 border-slate-200 focus:border-purple-400 focus:outline-none text-sm font-semibold">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Bottom Submit Button -->
+            <div class="text-center py-6">
+                <button onclick="confirmSubmit()" type="button" class="px-8 py-4 bg-gradient-to-r from-emerald-500 via-teal-500 to-sky-500 hover:from-emerald-600 hover:to-sky-600 text-white font-black text-lg rounded-2xl shadow-xl transform hover:scale-105 transition duration-200 flex items-center gap-3 mx-auto">
+                    <i class="fa-solid fa-cloud-arrow-up text-xl"></i> NỘP BÀI THI NGAY
+                </button>
+            </div>
+
+        </form>
+    </main>
+
+    <!-- Modal Results Overlay -->
+    <div id="resultModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md hidden items-center justify-center p-4 z-50 overflow-y-auto">
+        <div class="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl border-4 border-sky-300 max-h-[90vh] overflow-y-auto my-8">
+            <!-- Modal Header -->
+            <div class="text-center mb-6">
+                <div id="resultBadge" class="w-20 h-20 rounded-full mx-auto flex items-center justify-center text-4xl mb-3 shadow-lg">
+                    <i class="fa-solid fa-trophy"></i>
+                </div>
+                <h3 class="text-2xl font-black text-slate-800" id="resultTitle">KẾT QUẢ BÀI THI</h3>
+                <p class="text-xs font-bold text-slate-500 mt-1" id="resultSubtitle">Đề ôn tập Giữa Kỳ - Tiếng Anh Lớp 4</p>
+            </div>
+
+            <!-- Score Cards -->
+            <div class="grid grid-cols-3 gap-3 mb-6">
+                <div class="bg-sky-50 border-2 border-sky-200 p-3 rounded-2xl text-center">
+                    <span class="block text-xs font-bold text-sky-600">ĐIỂM SỐ</span>
+                    <strong class="text-2xl font-black text-sky-800" id="finalScore">0 / 10</strong>
+                </div>
+                <div class="bg-emerald-50 border-2 border-emerald-200 p-3 rounded-2xl text-center">
+                    <span class="block text-xs font-bold text-emerald-600">CÂU ĐÚNG</span>
+                    <strong class="text-2xl font-black text-emerald-800" id="correctCount">0 / 31</strong>
+                </div>
+                <div class="bg-amber-50 border-2 border-amber-200 p-3 rounded-2xl text-center">
+                    <span class="block text-xs font-bold text-amber-600">THỜI GIAN</span>
+                    <strong class="text-lg font-black text-amber-800" id="timeSpent">00:00</strong>
+                </div>
+            </div>
+
+            <!-- Error Breakdown Title -->
+            <div class="mb-4 flex items-center justify-between border-b pb-2">
+                <h4 class="font-extrabold text-slate-800 text-sm flex items-center gap-2">
+                    <i class="fa-solid fa-list-check text-sky-500"></i> CHI TIẾT LỖI SAI & ĐÁP ÁN
+                </h4>
+                <span class="text-xs font-bold text-red-500" id="wrongCountText">0 câu sai</span>
+            </div>
+
+            <!-- Error Breakdown Container -->
+            <div id="errorList" class="space-y-3 mb-6 text-xs sm:text-sm">
+                <!-- Dynamically populated -->
+            </div>
+
+            <!-- Modal Action Buttons -->
+            <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
+                <button onclick="closeModal()" class="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl transition">
+                    <i class="fa-solid fa-eye mr-1"></i> Xem lại bài làm
+                </button>
+                <button onclick="restartExam()" class="px-6 py-2.5 bg-sky-500 hover:bg-sky-600 text-white font-extrabold text-xs rounded-xl shadow-md transition">
+                    <i class="fa-solid fa-rotate-right mr-1"></i> Làm lại bài thi
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // Total Questions = 31
+        // Total Time = 40 mins
+        const TOTAL_SECONDS = 40 * 60;
+        let timeRemaining = TOTAL_SECONDS;
+        let timerInterval = null;
+        let isSubmitted = false;
+
+        // Correct Answer Key & Explanations
+        const ANSWER_KEYS = {
+            q1: { ans: "C", type: "mc", point: 0.25, title: "Câu 1", detail: "Phần gạch chân của She đọc là /i:/, các từ còn lại là /e/." },
+            q2: { ans: "D", type: "mc", point: 0.25, title: "Câu 2", detail: "Phần gạch chân của Father đọc là /ɑː/, các từ còn lại là /æ/." },
+            
+            q3: { ans: ["IE"], type: "fill", point: 0.25, title: "Câu 3", detail: "Chữ cái còn thiếu: IE -> VIETNAM" },
+            q4: { ans: ["A"], type: "fill", point: 0.25, title: "Câu 4", detail: "Chữ cái còn thiếu: A -> MONDAY" },
+            q5: { ans: ["U"], type: "fill", point: 0.25, title: "Câu 5", detail: "Chữ cái còn thiếu: U -> AUGUST" },
+            q6: { ans: ["I"], type: "fill", point: 0.25, title: "Câu 6", detail: "Chữ cái còn thiếu: I -> SWIM" },
+
+            q7: { ans: "c", type: "match", point: 0.25, title: "Câu 7", detail: "Where are you from? -> c. I'm from Malaysia." },
+            q8: { ans: "a", type: "match", point: 0.25, title: "Câu 8", detail: "What day is it today? -> a. It's Friday." },
+            q9: { ans: "d", type: "match", point: 0.25, title: "Câu 9", detail: "When's your birthday? -> d. It's in June." },
+            q10: { ans: "b", type: "match", point: 0.25, title: "Câu 10", detail: "What can you do? -> b. I can play football." },
+
+            q11: { ans: "B", type: "mc", point: 0.25, title: "Câu 11", detail: "Đáp án B. Malaysian (Quốc tịch Mã Lai)" },
+            q12: { ans: "B", type: "mc", point: 0.25, title: "Câu 12", detail: "Đáp án B. on (Dùng giới từ 'on' trước thứ trong tuần)" },
+            q13: { ans: "A", type: "mc", point: 0.25, title: "Câu 13", detail: "Đáp án A. in (Dùng giới từ 'in' trước tháng)" },
+            q14: { ans: "C", type: "mc", point: 0.25, title: "Câu 14", detail: "Đáp án C. can (Trả lời câu hỏi Can you...?: Yes, I can.)" },
+            q15: { ans: "B", type: "mc", point: 0.25, title: "Câu 15", detail: "Đáp án B. can't (Liên từ 'but' thể hiện vế trái ngược)" },
+            q16: { ans: "B", type: "mc", point: 0.25, title: "Câu 16", detail: "Đáp án B. England (From + tên quốc gia)" },
+            q17: { ans: "A", type: "mc", point: 0.25, title: "Câu 17", detail: "Đáp án A. help (Thì hiện tại đơn chủ ngữ I + động từ nguyên thể)" },
+            q18: { ans: "C", type: "mc", point: 0.25, title: "Câu 18", detail: "Đáp án C. months (Có 12 tháng trong một năm)" },
+            q19: { ans: "A", type: "mc", point: 0.25, title: "Câu 19", detail: "Đáp án A. can (Động từ khuyết thiếu can + V nguyên thể)" },
+            q20: { ans: "C", type: "mc", point: 0.25, title: "Câu 20", detail: "Đáp án C. What (Hỏi về hành động có thể làm)" },
+
+            q21: { ans: "C", type: "mc", point: 0.375, title: "Câu 21", detail: "Đáp án C. Australia (Trong bài: 'I am from Sydney, Australia.')" },
+            q22: { ans: "A", type: "mc", point: 0.375, title: "Câu 22", detail: "Đáp án A. Tuesday (Trong bài: 'Today is Tuesday.')" },
+            q23: { ans: "B", type: "mc", point: 0.375, title: "Câu 23", detail: "Đáp án B. Music (Trong bài: 'I have English, Maths, and Music at school.')" },
+            q24: { ans: "C", type: "mc", point: 0.375, title: "Câu 24", detail: "Đáp án C. sing songs (Trong bài: 'In Music class, I can sing many English songs.')" },
+
+            q25: { ans: ["NO, HE CANNOT.", "NO, HE CAN'T.", "NO, HE CANNOT SING.", "NO, HE CAN'T SING.", "NO."], type: "text", point: 0.5, title: "Câu 25", detail: "Đáp án chuẩn: No, he cannot. / No, he can't." },
+            q26: { ans: ["HE CAN PLAY THE GUITAR.", "HE CAN PLAY GUITAR.", "THE GUITAR", "GUITAR", "PETER CAN PLAY THE GUITAR."], type: "text", point: 0.5, title: "Câu 26", detail: "Đáp án chuẩn: He can play the guitar." },
+
+            q27: { ans: ["YOUR BIRTHDAY", "YOUR BIRTHDAY?"], type: "text", point: 0.5, title: "Câu 27", detail: "Viết tiếp: When is [your birthday]?" },
+            q28: { ans: ["SWIM", "SWIM."], type: "text", point: 0.5, title: "Câu 28", detail: "Viết tiếp: My sister can [swim]." },
+
+            q29: { ans: ["WHERE ARE YOU FROM?", "WHERE ARE YOU FROM"], type: "text", point: 0.5, title: "Câu 29", detail: "Đặt câu hỏi: Where are you from?" },
+            q30: { ans: ["WHAT DAY IS IT TODAY?", "WHAT DAY IS TODAY?", "WHAT DAY IS IT TODAY", "WHAT DAY IS TODAY"], type: "text", point: 0.5, title: "Câu 30", detail: "Đặt câu hỏi: What day is it today?" },
+            q31: { ans: ["WHEN IS YOUR BIRTHDAY?", "WHEN'S YOUR BIRTHDAY?", "WHEN IS YOUR BIRTHDAY", "WHEN'S YOUR BIRTHDAY"], type: "text", point: 0.5, title: "Câu 31", detail: "Đặt câu hỏi: When is your birthday? hoặc When's your birthday?" }
+        };
+
+        // Initialize Application
+        window.addEventListener('DOMContentLoaded', () => {
+            initVisitorCount();
+            loadAutoSave();
+            startTimer();
+        });
+
+        // Visitor Count Logic
+        function initVisitorCount() {
+            let count = localStorage.getItem('lop4_exam_visitors');
+            if (!count) {
+                count = 1;
+            } else {
+                count = parseInt(count) + 1;
+            }
+            localStorage.setItem('lop4_exam_visitors', count);
+            document.getElementById('visitorCount').innerText = count;
+        }
+
+        // Timer Logic
+        function startTimer() {
+            const savedTime = localStorage.getItem('lop4_exam_timer');
+            if (savedTime && !isNaN(savedTime)) {
+                timeRemaining = parseInt(savedTime);
+            }
+
+            updateTimerDisplay();
+            timerInterval = setInterval(() => {
+                if (isSubmitted) return;
+                timeRemaining--;
+                localStorage.setItem('lop4_exam_timer', timeRemaining);
+                updateTimerDisplay();
+
+                if (timeRemaining <= 0) {
+                    clearInterval(timerInterval);
+                    alert('Đã hết thời gian làm bài 40 phút! Hệ thống sẽ tự động nộp bài.');
+                    submitExam(true);
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const mins = Math.floor(timeRemaining / 60);
+            const secs = timeRemaining % 60;
+            const display = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+            const timerEl = document.getElementById('timer');
+            timerEl.innerText = display;
+
+            if (timeRemaining <= 300) { // last 5 mins
+                document.getElementById('timerContainer').classList.remove('bg-amber-50', 'border-amber-300', 'text-amber-800');
+                document.getElementById('timerContainer').classList.add('bg-red-50', 'border-red-400', 'text-red-700', 'animate-bounce');
+            }
+        }
+
+        // Auto Save to localStorage
+        function autoSave() {
+            if (isSubmitted) return;
+            const answers = {};
+
+            // Save Radios
+            const radios = document.querySelectorAll('input[type="radio"]:checked');
+            radios.forEach(r => { answers[r.name] = r.value; });
+
+            // Save Inputs
+            const inputs = document.querySelectorAll('input[type="text"]');
+            inputs.forEach(i => { answers[i.id] = i.value; });
+
+            // Save Selects
+            const selects = document.querySelectorAll('select');
+            selects.forEach(s => { answers[s.id] = s.value; });
+
+            localStorage.setItem('lop4_exam_answers', JSON.stringify(answers));
+        }
+
+        function loadAutoSave() {
+            const saved = localStorage.getItem('lop4_exam_answers');
+            if (!saved) return;
+            try {
+                const answers = JSON.parse(saved);
+
+                // Restore Radios
+                Object.keys(answers).forEach(key => {
+                    if (key.startsWith('q')) {
+                        const val = answers[key];
+                        const radio = document.querySelector(`input[name="${key}"][value="${val}"]`);
+                        if (radio) radio.checked = true;
+
+                        const input = document.getElementById(key);
+                        if (input && input.tagName === 'INPUT') input.value = val;
+
+                        const select = document.getElementById(key);
+                        if (select && select.tagName === 'SELECT') select.value = val;
+                    }
+                });
+            } catch (e) {
+                console.error("Failed to restore progress", e);
+            }
+        }
+
+        // String Sanitizer for String Matching
+        function cleanString(str) {
+            if (!str) return "";
+            return str.trim().toUpperCase().replace(/\s+/g, ' ');
+        }
+
+        // Confirmation dialogs
+        function confirmSubmit() {
+            if (isSubmitted) return;
+            if (confirm("Bạn có chắc chắn muốn nộp bài thi ngay bây giờ?")) {
+                submitExam(false);
+            }
+        }
+
+        function confirmReset() {
+            if (confirm("Bạn có muốn xóa toàn bộ bài làm để làm lại từ đầu không?")) {
+                restartExam();
+            }
+        }
+
+        // Grading Engine
+        function submitExam(isAuto = false) {
+            if (isSubmitted) return;
+            isSubmitted = true;
+            clearInterval(timerInterval);
+
+            let totalScore = 0;
+            let correctCount = 0;
+            let wrongList = [];
+
+            // Iterate all 31 questions
+            for (let i = 1; i <= 31; i++) {
+                const qKey = `q${i}`;
+                const config = ANSWER_KEYS[qKey];
+                let userVal = "";
+                let isCorrect = false;
+
+                if (config.type === "mc") {
+                    const selected = document.querySelector(`input[name="${qKey}"]:checked`);
+                    userVal = selected ? selected.value : "";
+                    if (userVal === config.ans) {
+                        isCorrect = true;
+                    }
+                } else if (config.type === "match") {
+                    const select = document.getElementById(qKey);
+                    userVal = select ? select.value : "";
+                    if (userVal === config.ans) {
+                        isCorrect = true;
+                    }
+                } else if (config.type === "fill" || config.type === "text") {
+                    const input = document.getElementById(qKey);
+                    userVal = input ? input.value : "";
+                    const cleanedUser = cleanString(userVal);
+                    
+                    if (Array.isArray(config.ans)) {
+                        isCorrect = config.ans.some(validAns => cleanString(validAns) === cleanedUser);
+                    } else {
+                        isCorrect = (cleanedUser === cleanString(config.ans));
+                    }
+                }
+
+                if (isCorrect) {
+                    totalScore += config.point;
+                    correctCount++;
+                    highlightQuestion(i, true);
+                } else {
+                    highlightQuestion(i, false);
+                    wrongList.push({
+                        id: i,
+                        title: config.title,
+                        userAns: userVal || "(Chưa làm)",
+                        detail: config.detail
+                    });
+                }
+            }
+
+            // Rounding total score to 2 decimal places
+            totalScore = Math.round(totalScore * 100) / 100;
+
+            // Render Results Modal
+            showResultsModal(totalScore, correctCount, wrongList);
+        }
+
+        function highlightQuestion(qNum, isCorrect) {
+            const block = document.getElementById(`q-block-${qNum}`);
+            if (!block) return;
+            if (isCorrect) {
+                block.classList.add('bg-emerald-50/90', 'border-emerald-300');
+            } else {
+                block.classList.add('bg-red-50/90', 'border-red-300');
+            }
+        }
+
+        function showResultsModal(score, correctCount, wrongList) {
+            const modal = document.getElementById('resultModal');
+            document.getElementById('finalScore').innerText = `${score} / 10`;
+            document.getElementById('correctCount').innerText = `${correctCount} / 31`;
+
+            const spentSeconds = TOTAL_SECONDS - timeRemaining;
+            const spentMins = Math.floor(spentSeconds / 60);
+            const spentSecs = spentSeconds % 60;
+            document.getElementById('timeSpent').innerText = `${spentMins}m ${spentSecs}s`;
+
+            const badge = document.getElementById('resultBadge');
+            const title = document.getElementById('resultTitle');
+
+            if (score >= 8.0) {
+                badge.className = "w-20 h-20 rounded-full mx-auto flex items-center justify-center text-4xl mb-3 shadow-lg bg-emerald-100 text-emerald-600 border-4 border-emerald-300";
+                title.innerText = "XUẤT SẮC! 🎉";
+                confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+            } else if (score >= 5.0) {
+                badge.className = "w-20 h-20 rounded-full mx-auto flex items-center justify-center text-4xl mb-3 shadow-lg bg-sky-100 text-sky-600 border-4 border-sky-300";
+                title.innerText = "LÀM BÀI TỐT! 👍";
+            } else {
+                badge.className = "w-20 h-20 rounded-full mx-auto flex items-center justify-center text-4xl mb-3 shadow-lg bg-amber-100 text-amber-600 border-4 border-amber-300";
+                title.innerText = "CỐ GẮNG HƠN NHÉ! 💪";
+            }
+
+            const errorContainer = document.getElementById('errorList');
+            document.getElementById('wrongCountText').innerText = `${wrongList.length} câu làm chưa đúng`;
+            errorContainer.innerHTML = "";
+
+            if (wrongList.length === 0) {
+                errorContainer.innerHTML = `
+                    <div class="p-4 bg-emerald-50 border border-emerald-200 rounded-2xl text-center text-emerald-800 font-bold">
+                        🌟 Tuyệt vời! Bạn không làm sai câu nào!
+                    </div>
+                `;
+            } else {
+                wrongList.forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = "p-3.5 bg-red-50/80 border border-red-200 rounded-2xl";
+                    card.innerHTML = `
+                        <div class="flex items-center justify-between font-bold text-red-800 mb-1">
+                            <span>${item.title}</span>
+                            <span class="text-xs bg-red-200 text-red-900 px-2 py-0.5 rounded-md">Sai</span>
+                        </div>
+                        <p class="text-slate-700 font-semibold mb-1">
+                            Trả lời của bạn: <strong class="text-red-600">${escapeHtml(item.userAns)}</strong>
+                        </p>
+                        <p class="text-emerald-800 font-bold bg-white/80 p-2 rounded-xl border border-emerald-200 text-xs">
+                            <i class="fa-solid fa-circle-check text-emerald-500 mr-1"></i> ${item.detail}
+                        </p>
+                    `;
+                    errorContainer.appendChild(card);
+                });
+            }
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('resultModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function restartExam() {
+            localStorage.removeItem('lop4_exam_answers');
+            localStorage.removeItem('lop4_exam_timer');
+            location.reload();
+        }
+
+        function escapeHtml(text) {
+            if (!text) return "";
+            return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        }
+    </script>
+</body>
+</html>
